@@ -71,21 +71,23 @@ function Order() {
 				)}
 				<p className='font-bold'>To pay on delivery: {formatCurrency(orderPrice + priorityPrice)}</p>
 			</div>
-			<fetcher.Form method='PATCH' className='text-right'>
-				<Button type='primary'>Make Priority</Button>
-			</fetcher.Form>
+			{!priority && (
+				<fetcher.Form method='PATCH' className='text-right'>
+					<Button type='primary'>Make Priority</Button>
+				</fetcher.Form>
+			)}
 		</div>
 	);
 }
 
 export async function action({ params }) {
 	const data = { priority: true };
-	await updateOrder(params.orderId, data);
+	await updateOrder(params.orderId);
 	return null;
 }
 
 export async function loader({ params }) {
-	const order = await getOrder(params.orderId);
+	const order = await getOrder(params.orderId, data);
 	return order;
 }
 
